@@ -1,0 +1,181 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="main.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js"></script>
+    <script src="app.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <nav class="navbar navbar-light bg-faded">
+        <a class="navbar-brand" href="http://www.brevium.com"><img src="img/brevium-hdr-logo1.png"/></a>
+      </nav>
+    </div>
+    <div class="container" ng-app="app">
+      <div class="jumbotron">
+        <h1>The Cost of Lost Patients</h1>
+        <p>How much are empty slots and non-compliant patients costing your practice?</p>
+      </div>
+      <div class="container">
+        <form class="form-horizontal" ng-controller="MainCtrl">
+          <div class="row vertical-align">
+            <div class="col-md-8">
+              <div class="form-group form-inline">
+                <label for="avgVisitValue" class="control-label col-sm-8">Average Visit Value</label>
+                <div class="input-group col-sm-4">
+                  <div class="input-group-addon">$</div>
+                  <input type="number" min="0" class="form-control" id="avgVisitValue" ng-model="avgVisitValue" placeholder="135">
+                </div>
+              </div>
+              <div class="form-group form-inline">
+                <label for="visitsPerWeek" class="control-label col-sm-8">Total Visits Per Week</label>
+                <div class="input-group col-sm-4">
+                  <input type="number" min="0" class="form-control" id="visitsPerWeek" ng-model="visitsPerWeek" placeholder="150">
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr class="separator">
+          <div class="row vertical-align">
+            <div class="col-md-8">
+              <div class="form-group form-inline">
+                <label for="recallsPerPatient" class="control-label col-sm-8">Recalls Sent Per Patient</label>
+                <div class="input-group col-sm-4">
+                  <input type="number" min="0" class="form-control" id="recallsPerPatient" ng-model="recallsPerPatient" placeholder="2">
+                </div>
+              </div>
+              <div class="form-group form-inline">
+                <label for="schedPerRecall" class="control-label col-sm-8">Percent of patients that schedule per recall sent</label>
+                <div class="input-group col-sm-4">
+                  <input type="number" min="0" max="100" class="form-control" id="schedPerRecall" ng-model="schedPerRecall" placeholder="30">
+                  <div class="input-group-addon">%</div>
+                </div>
+              </div>
+              <div class="form-group form-inline">
+                <label for="setRecallUponExit" class="control-label col-sm-8">Percent of patients set up for a recall as they leave the office</label>
+                <div class="input-group col-sm-4">
+                  <input type="number" min="0" max="100" class="form-control" id="setRecallUponExit" ng-model="setRecallUponExit" placeholder="30">
+                  <div class="input-group-addon">%</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 text-center">
+              <div class="form-group text-danger" ng-show="calculateRecallLosses()">
+                <label for="recallLosses" class="col-sm-12">Losses due to ignored recalls</label>
+                <div class="col-sm-12" id="recallLosses">
+                  <h4 class="text-center">
+                  {{calculateRecallLosses() | number:1}}%
+                  </h4>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr class="separator">
+          <div class="row vertical-align">
+            <div class="col-md-8">
+              <div class="form-group form-inline">
+                <label for="noshowRate" class="control-label col-sm-8">No show/cancel rate</label>
+                <div class="input-group col-sm-4">
+                  <input type="number" min="0" max="100" class="form-control" id="noshowRate" ng-model="noshowRate" placeholder="12">
+                  <div class="input-group-addon">%</div>
+                </div>
+              </div>
+              <div class="form-group form-inline">
+                <label for="noReschedule" class="control-label col-sm-8">Percent not rescheduling after no show/cancel</label>
+                <div class="input-group col-sm-4">
+                  <input type="number" min="0" max="100" class="form-control" id="noReschedule" ng-model="noReschedule" placeholder="30">
+                  <div class="input-group-addon">%</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 text-center">
+              <div class="form-group text-danger" ng-show="calculateNoShowLosses()">
+                <label for="noShowLosses" class="col-sm-12">Losses due to no show/cancel</label>
+                <div class="col-sm-12" id="noShowLosses">
+                  <h4 class="text-center">
+                  {{calculateNoShowLosses() | number:1}}%
+                  </h4>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr class="separator">
+          <div class="row vertical-align">
+            <div class="col-md-8">
+              <div class="form-group form-inline">
+                <label for="slipPast" class="control-label col-sm-8">Patients who slip past the appointment desk on the way out</label>
+                <div class="input-group col-sm-4">
+                  <input type="number" min="0" max="100" class="form-control" id="slipPast" ng-model="slipPast" placeholder="2">
+                  <div class="input-group-addon">%</div>
+                </div>
+              </div>
+              <div class="form-group form-inline">
+                <label for="laterReschedule" class="control-label col-sm-8">Patients not scheduled on exit who later schedule</label>
+                <div class="input-group col-sm-4">
+                  <input type="number" min="0" max="100" class="form-control" id="laterReschedule" ng-model="laterReschedule" placeholder="50">
+                  <div class="input-group-addon">%</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 text-center">
+              <div class="form-group text-danger" ng-show="calculateSlipLosses()">
+                <label for="noShowLosses" class="col-sm-12">Total losses from slipping past front desk</label>
+                <div class="col-sm-12" id="slipLosses">
+                  <h4 class="text-center">
+                  {{calculateSlipLosses() | number:1}}%
+                  </h4>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr class="separator">
+          <div class="row vertical-align">
+            <div class="col-md-12 text-center">
+              <div class="form-group form-inline text-danger" ng-show="calculateTotalLosses()">
+                <label for="totalLosses" class="control-label col-sm-6"><h4>Total loss rate</h4></label>
+                <div class="col-sm-6" id="totalLosses">
+                  <h4 class="text-center">
+                  {{calculateTotalLosses() | number:1}}%
+                  </h4>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row vertical-align">
+            <div class="col-md-12 text-center">
+              <div class="form-group form-inline text-danger" ng-show="calculateAnnualLosses()">
+                <label for="annualLosses" class="control-label col-sm-6"><h4>Annual losses due to lost patients</h4></label>
+                <div class="col-sm-6" id="annualLosses">
+                  <h4 class="text-center">
+                  {{calculateAnnualLosses() | currency}}
+                  </h4>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr class="separator">
+          <div class="row vertical-align">
+            <div class="col-md-8">
+              <div class="form-group form-inline">
+                <label for="unfilledAppts" class="control-label col-sm-8">Number of appointments expiring unfilled per week</label>
+                <div class="input-group col-sm-4">
+                  <input type="number" min="0" class="form-control" id="unfilledAppts" ng-model="unfilledAppts" placeholder="30">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 text-center">
+              <div class="form-group form-inline text-danger" ng-show="calculateAnnualUnfilledVal()">
+                <label for="annualUnfilledVal" class="col-sm-12">Annual value of unfilled appointments</label>
+                <div class="col-sm-12" id="annualUnfilledVal">
+                  <h4 class="text-center">
+                  {{calculateAnnualUnfilledVal() | currency}}
+                  </h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
