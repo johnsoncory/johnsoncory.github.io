@@ -1,0 +1,22 @@
+.vertical-align {
+	display: flex;
+	align-items: center;
+}
+
+.jumbotron {
+  	padding-top: 20px;
+  	padding-bottom: 20px;
+  	text-align: center;
+  	margin-top: 10px;
+  	background: transparent;
+}
+
+.navbar-light {
+	padding-top: 0px;
+	margin-top: 0px;
+	background: transparent;
+}
+
+::-webkit-input-placeholder {
+   color: #bbbbbb!important;
+}
