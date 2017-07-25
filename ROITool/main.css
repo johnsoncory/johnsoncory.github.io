@@ -4,10 +4,10 @@
 }
 
 .jumbotron {
-  	padding-top: 20px;
-  	padding-bottom: 20px;
+  	padding-top: 0px;
+  	padding-bottom: 0px;
   	text-align: center;
-  	margin-top: 10px;
+  	margin-top: 0px;
   	background: transparent;
 }
 
