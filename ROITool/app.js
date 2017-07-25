@@ -32,4 +32,8 @@ angular.module('app', [])
     $scope.calculateAnnualUnfilledVal = function() {
       return $scope.unfilledAppts * $scope.avgVisitValue * 50;
     }
+
+    $scope.calculatePotentialIncrease = function() {
+      return Math.min($scope.calculateAnnualLosses(), $scope.calculateAnnualUnfilledVal());
+    }
   });

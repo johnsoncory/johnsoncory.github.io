@@ -33,6 +33,20 @@
                   <input type="number" min="0" class="form-control" id="visitsPerWeek" ng-model="visitsPerWeek" placeholder="150">
                 </div>
               </div>
+              <div class="form-group form-inline">
+                <label for="unfilledAppts" class="control-label col-sm-8">Number of appointments expiring unfilled per week</label>
+                <div class="input-group col-sm-4">
+                  <input type="number" min="0" class="form-control" id="unfilledAppts" ng-model="unfilledAppts" placeholder="30">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 text-center">
+              <div class="card card-outline-danger text-danger text-center" ng-show="calculateAnnualUnfilledVal()">
+                <h6 class="card-header">Annual value of unfilled appointments</h6>
+                <div class="card-block">
+                  <h3 class="card-title">{{calculateAnnualUnfilledVal() | currency}}</h3>
+                </div>
+              </div>
             </div>
           </div>
           <hr class="separator">
@@ -60,12 +74,10 @@
               </div>
             </div>
             <div class="col-md-4 text-center">
-              <div class="form-group text-danger" ng-show="calculateRecallLosses()">
-                <label for="recallLosses" class="col-sm-12">Losses due to ignored recalls</label>
-                <div class="col-sm-12" id="recallLosses">
-                  <h4 class="text-center">
-                  {{calculateRecallLosses() | number:1}}%
-                  </h4>
+              <div class="card card-outline-danger text-danger text-center" ng-show="calculateRecallLosses()">
+                <h6 class="card-header">Losses due to ignored recalls</h6>
+                <div class="card-block">
+                  <h3 class="card-title">{{calculateRecallLosses() | number:1}}%</h3>
                 </div>
               </div>
             </div>
@@ -89,12 +101,10 @@
               </div>
             </div>
             <div class="col-md-4 text-center">
-              <div class="form-group text-danger" ng-show="calculateNoShowLosses()">
-                <label for="noShowLosses" class="col-sm-12">Losses due to no show/cancel</label>
-                <div class="col-sm-12" id="noShowLosses">
-                  <h4 class="text-center">
-                  {{calculateNoShowLosses() | number:1}}%
-                  </h4>
+              <div class="card card-outline-danger text-danger text-center" ng-show="calculateNoShowLosses()">
+                <h6 class="card-header">Losses due to no show/cancel</h6>
+                <div class="card-block">
+                  <h3 class="card-title">{{calculateNoShowLosses() | number:1}}%</h3>
                 </div>
               </div>
             </div>
@@ -118,64 +128,44 @@
               </div>
             </div>
             <div class="col-md-4 text-center">
-              <div class="form-group text-danger" ng-show="calculateSlipLosses()">
-                <label for="noShowLosses" class="col-sm-12">Total losses from slipping past front desk</label>
-                <div class="col-sm-12" id="slipLosses">
-                  <h4 class="text-center">
-                  {{calculateSlipLosses() | number:1}}%
-                  </h4>
+              <div class="card card-outline-danger text-danger text-center" ng-show="calculateSlipLosses()">
+                <h6 class="card-header">Losses from slipping past front desk</h6>
+                <div class="card-block">
+                  <h3 class="card-title">{{calculateSlipLosses() | number:1}}%</h3>
                 </div>
               </div>
             </div>
           </div>
           <hr class="separator">
           <div class="row vertical-align">
-            <div class="col-md-12 text-center">
-              <div class="form-group form-inline text-danger" ng-show="calculateTotalLosses()">
-                <label for="totalLosses" class="control-label col-sm-6"><h4>Total loss rate</h4></label>
-                <div class="col-sm-6" id="totalLosses">
-                  <h4 class="text-center">
-                  {{calculateTotalLosses() | number:1}}%
-                  </h4>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row vertical-align">
-            <div class="col-md-12 text-center">
-              <div class="form-group form-inline text-danger" ng-show="calculateAnnualLosses()">
-                <label for="annualLosses" class="control-label col-sm-6"><h4>Annual losses due to lost patients</h4></label>
-                <div class="col-sm-6" id="annualLosses">
-                  <h4 class="text-center">
-                  {{calculateAnnualLosses() | currency}}
-                  </h4>
-                </div>
-              </div>
-            </div>
-          </div>
-          <hr class="separator">
-          <div class="row vertical-align">
-            <div class="col-md-8">
-              <div class="form-group form-inline">
-                <label for="unfilledAppts" class="control-label col-sm-8">Number of appointments expiring unfilled per week</label>
-                <div class="input-group col-sm-4">
-                  <input type="number" min="0" class="form-control" id="unfilledAppts" ng-model="unfilledAppts" placeholder="30">
+            <div class="col-md-3 text-center">
+              <div class="card card-outline-danger text-danger text-center" ng-show="calculateTotalLosses()">
+                <h6 class="card-header">Total loss rate</h6>
+                <div class="card-block">
+                  <h3 class="card-title">{{calculateTotalLosses() | number:1}}%</h3>
                 </div>
               </div>
             </div>
             <div class="col-md-4 text-center">
-              <div class="form-group form-inline text-danger" ng-show="calculateAnnualUnfilledVal()">
-                <label for="annualUnfilledVal" class="col-sm-12">Annual value of unfilled appointments</label>
-                <div class="col-sm-12" id="annualUnfilledVal">
-                  <h4 class="text-center">
-                  {{calculateAnnualUnfilledVal() | currency}}
-                  </h4>
+              <div class="card card-outline-danger text-danger text-center" ng-show="calculateAnnualLosses()">
+                <h6 class="card-header">Annual losses due to lost patients</h6>
+                <div class="card-block">
+                  <h3 class="card-title">{{calculateAnnualLosses() | currency}}</h3>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-5 text-center">
+              <div class="card card-outline-success text-success text-center" ng-show="calculatePotentialIncrease()">
+                <h6 class="card-header">Potential annual value of bringing back lost patients</h6>
+                <div class="card-block">
+                  <h3 class="card-title">{{calculatePotentialIncrease() | currency}}</h3>
                 </div>
               </div>
             </div>
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
-  </body>
+  </div>
+</body>
 </html>
